@@ -2,3 +2,4 @@
 *.py~
 *.pyc
 config
+getTopTen.py
