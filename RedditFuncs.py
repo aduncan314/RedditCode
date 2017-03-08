@@ -10,10 +10,8 @@ def config_reddit_readonly():
 	config = ConfigParser.ConfigParser()
 	config.read('config')
 	configValues = config.items('data-collector-personal')
-
 	for item in configValues:
 		exec('%s = %s' % (item[0],item[1]))
-	
 	reddit = praw.Reddit(client_id=client_id,
 										  client_secret=client_secret,
 										  user_agent=user_agent)
@@ -25,10 +23,8 @@ def config_reddit_auth():
 	config = ConfigParser.ConfigParser()
 	config.read('config')
 	configValues = config.items('data-collector-personal')
-
 	for item in configValues:
-		exec('%s = %s' % (item[0],item[1]))
-	
+		exec('%s = %s' % (item[0],item[1]))	
 	reddit = praw.Reddit(client_id=client_id,
 										  client_secret=client_secret,
 										  user_agent=user_agent,
@@ -42,19 +38,24 @@ def top_posts(n,subreddit):
 	reddit = config_reddit_readonly()
 #	idsNums = [submission.id for submission in reddit.subreddit(subreddit).top(limit=n)]
 	idNums = []
-	for submission in reddit.subreddit(subreddit).hot(limit=n*2):
+	for submission in reddit.subreddit(subreddit).hot(limit=n*2): # Change to check number of stickies and return n non stickied posts
 		if not submission.stickied and len(idNums) < n+1:
 			idNums.append(submission.id)
 	return idNums
 
 
-# Returns a list of all word strings of length *length* in *text*
-def length_n_strings(n, text):
-#	text = "stuff and things and things and stuff"
-#	length =2
+# Returns a list of all word sequences of length *length* in *text*
+def length_n_sec(n, text):
 	words = text.split()
 	strings = []
 	textLength = len(words)
 	for start in range(textLength - n):
 		strings.append(words[start: start+n])
-	return strings	
+	return strings
+	
+	
+# Choose subreddit:		TODO
+def choose_subreddit():
+	return 'nfl'
+
+
