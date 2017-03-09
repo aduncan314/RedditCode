@@ -23,5 +23,6 @@ password: '<your_password**>'
 ~                                          
 ```
 \*All fields with an asterisk must be taken from your Reddit account when you set up as a developer
+
 \**These fields are only needed for "authorized" actions like posting, voting, etc.# RedditCode
 Some functions for accessing Reddit using PRAW
