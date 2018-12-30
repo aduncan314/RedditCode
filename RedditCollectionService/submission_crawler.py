@@ -2,6 +2,7 @@ import warnings
 import logging
 
 from RedditCollectionService.reddit_connection_maker import connection_factory
+from RedditCollectionService.comment_calculator import CommentCalculator
 
 
 class SubmissionCrawler(object):
@@ -35,7 +36,18 @@ class SubmissionCrawler(object):
 
 
     def get_next_level_stats(self):
-        logging.info("there are {} top comments".format(len(self)))
+        logging.info("There are {} top comments".format(len(self)))
+        for comment in self._submission.comments:
+            logging.debug("Collecting stats for {}".format(comment.id))
+            this_comment = CommentCalculator(comment.body)
+            # all_stats = this_comment.get_all_stats()
+            # msg = "Stats : {}".format(" ".join(["{}={}".format(k,all_stats[k]) for k in all_stats]))
+            # print(msg)
+
+            repeated_words = this_comment.get_repeated_word_count()
+            msg = "".join(["\t{} : {}\n".format(word, repeated_words[word]) for word in repeated_words])
+            print("All reapeated words:\n{}".format(msg))
+
 
     def _get_acceptable_submission(self):
         current_top_submissions = self._get_submissions()
