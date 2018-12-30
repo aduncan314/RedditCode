@@ -2,4 +2,5 @@
 *.py~
 *.pyc
 config
+config.json
 getTopTen.py

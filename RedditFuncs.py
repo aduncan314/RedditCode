@@ -2,7 +2,7 @@
 # Andrew Duncan
 # February 2017
 
-import praw, ConfigParser
+import praw
 
 
 # Returns a read only reddit instance
@@ -19,18 +19,18 @@ def config_reddit_readonly():
 
 
 # Returns an authorized reddit instance
-def config_reddit_auth():
-	config = ConfigParser.ConfigParser()
-	config.read('config')
-	configValues = config.items('data-collector-personal')
-	for item in configValues:
-		exec('%s = %s' % (item[0],item[1]))	
-	reddit = praw.Reddit(client_id=client_id,
-										  client_secret=client_secret,
-										  user_agent=user_agent,
-										  username=username,
-										  password=password)
-	return reddit
+# def config_reddit_auth():
+# 	config = ConfigParser.ConfigParser()
+# 	config.read('config')
+# 	configValues = config.items('data-collector-personal')
+# 	for item in configValues:
+# 		exec('%s = %s' % (item[0],item[1]))
+# 	reddit = praw.Reddit(client_id=client_id,
+# 										  client_secret=client_secret,
+# 										  user_agent=user_agent,
+# 										  username=username,
+# 										  password=password)
+# 	return reddit
 
 
 # Returns list of ids of the top %n posts to %subreddit
