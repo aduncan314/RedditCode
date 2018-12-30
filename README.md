@@ -16,7 +16,7 @@ Create a file called "config.json" using the following template:
   "default": {
     "client_id": "<your_client_id*>",
     "client_secret": "<your_client_secret*>",
-    "user_agent": "<your_user_agent>""home:data-collector:v1.0",
+    "user_agent": "<your_user_agent>"  --eg. "home:my-collector:v1.0",
     "username": "<your_username**>",
     "password": "<your_password**>"
   }
