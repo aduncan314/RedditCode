@@ -5,7 +5,7 @@ from collections import OrderedDict
 class CommentCalculator(object):
     def __init__(self, comment_text):
         self.full_comment_text = comment_text
-        self._word_list = re.findall('\w+', self.full_comment_text)
+        self._word_list = re.findall("[\w'-]+", self.full_comment_text)
 
     def get_all_stats(self):
         # word count, average word length, character count
