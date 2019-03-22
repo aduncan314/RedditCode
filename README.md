@@ -1,8 +1,15 @@
+
 # RedditCode
 Some functions for accessing Reddit using PRAW
 *Note:* if you stumble upon this and wonder, yes, most of this code could be written as simple on or two file scripts
 intead of as a OO project with logging etc. I am using it to practice/learn design principles using a simple project
 that would be more important in a larger project.
+
+## Requirements
+- Python 3.5 (keeping my system version; keep your f-strings)
+- praw 6.0.0
+- requests 2.21.0
+- urllib3 1.24.1
 
 ## RedditCollectionService
 This is a bad name

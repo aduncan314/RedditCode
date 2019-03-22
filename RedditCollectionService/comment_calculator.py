@@ -1,4 +1,5 @@
 import re
+from RedditCodeLogging import simple_log
 
 from collections import OrderedDict
 
@@ -7,26 +8,32 @@ class CommentCalculator(object):
         self.full_comment_text = comment_text
         self._word_list = re.findall("[\w'-]+", self.full_comment_text)
 
-    def get_all_stats(self):
+    @simple_log
+    def get_all_single_stats(self):
         # word count, average word length, character count
         all_stats_dict = {
             'wordcount': self.get_wordcount(),
             'ave_len': self.get_ave_word_len(),
             'char_count': self.get_char_count(),
-            'punctuation_count': self.get_punctuation_count()
+            'punctuation_count': self.get_punctuation_count(),
+            'repeated_word_count': self.get_repeated_word_count()
         }
         return all_stats_dict
 
+    @simple_log
     def get_wordcount(self):
         return len(self._word_list)
 
+    @simple_log
     def get_ave_word_len(self):
         length_sum = float(sum([len(word) for word in self._word_list]))
         return length_sum / self.get_wordcount()
 
+    @simple_log
     def get_char_count(self):
         return len(self.full_comment_text.strip())
 
+    @simple_log
     def get_punctuation_count(self, distinct_sets=True):
         if distinct_sets:
             all_punct = re.findall('[^\w\s]+', self.full_comment_text) # TODO: double check regex!!
@@ -35,6 +42,7 @@ class CommentCalculator(object):
 
         return len(all_punct)
 
+    @simple_log
     def get_repeated_word_count(self):
         all_words_dict = {}
 
@@ -46,9 +54,11 @@ class CommentCalculator(object):
 
         return OrderedDict(sorted(all_words_dict.items(), key=lambda x: x[1], reverse=True))
 
+    @simple_log
     def get_shared_word_count(self, sub_comment_text):
         return len(self.get_shared_word(sub_comment_text))
 
+    @simple_log
     def get_shared_word(self, sub_comment_text):
         sub_comment_calc = CommentCalculator(sub_comment_text)
         sub_counts = sub_comment_calc.get_repeated_word_count()
@@ -60,6 +70,7 @@ class CommentCalculator(object):
 
         return coincident_count
 
+    @simple_log
     def get_shared_word_ratio(self, sub_comment_text):
         """
         Return dictionary with ratio of parent/child word count ratio for all repeated words

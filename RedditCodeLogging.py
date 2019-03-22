@@ -1,5 +1,6 @@
 import logging
 import os
+import functools
 
 from datetime import datetime as dt
 
@@ -7,7 +8,7 @@ from datetime import datetime as dt
 def initialize_logging():
     filename = _get_filename()
     level = _get_log_level()
-    fmt_string = '[%(asctime)s][%(levelname)s]\t%(module)25s\t%(lineno)s\t%(msg)s'
+    fmt_string = '[%(asctime)s,%(msecs)03d][%(levelname)s]\t%(module)25s\t%(lineno)s\t%(msg)s'
 
     logging.basicConfig(filename=filename,
                         level=level,
@@ -32,3 +33,13 @@ def _get_log_level():
         return logging.DEBUG
     else:
         raise RuntimeError("No runtime environment set")
+
+
+def simple_log(func):
+    # TODO: log the calling module, not this one: not critical
+    @functools.wraps(func)
+    def wrapper(*args):
+        logging.debug('Calling {}'.format(func.__qualname__))
+        return func(*args)
+
+    return wrapper

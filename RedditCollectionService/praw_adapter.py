@@ -5,9 +5,9 @@ import logging
 from os import environ, path
 
 
-class RedditConnectionMaker(object):
+class PrawDapter(object):
     try:
-        _system_user = environ['RedditCode.User'] # TODO: this may not need to be environment var; pass in init?
+        _system_user = environ['RedditCode.User']  # TODO: this may not need to be environment var; pass in init?
     except KeyError:
         print('Setting user to default')
         _system_user = 'default'
@@ -48,7 +48,11 @@ class RedditConnectionMaker(object):
                            password=self.config['password'])
 
     def _load_configuration(self):
-        base_path = environ['RedditCode.BasePath']
+        try:
+            base_path = environ['RedditCode.BasePath']
+        except KeyError:
+            raise EnvironmentError("Evironment variable 'RedditCode.BasePath' has not been set")
+
         config_path = path.join(base_path, 'config.json')
         with open(config_path, 'r') as config_file:
             config = json.load(config_file)
@@ -56,9 +60,3 @@ class RedditConnectionMaker(object):
             raise RuntimeError("Configuration file for user, {}, is empty".format(self._system_user))
         else:
             return config[self._system_user]
-
-
-def connection_factory(conn_type):
-    connector = RedditConnectionMaker()
-    reddit_instance = connector.make_connection(conn_type)
-    return reddit_instance
